@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<style>body{margin:0}</style>
+</head>
+<body>
+<title>Ταξίδι Mokka</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#1d4a3c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+  /* Διάταξη: στενή στήλη τύπου οδικού βιβλίου, με κολλητή κεφαλίδα και πινακίδες διαδρομής. */
+  :root {
+    --bg: #eef1ef; --surface: #ffffff; --ink: #18231f; --muted: #5b6862; --line: #d5ddd8;
+    --pine: #1d4a3c; --pine-ink: #ffffff; --sign: #f2b705; --sign-ink: #1a1a1a;
+    --soft: #e3ece7; --tip: #fff6d6; --tip-line: #e2a800; --ok: #1f7a4d; --warn: #b4421f;
+    --display: "Barlow Condensed", "Arial Narrow", "Roboto Condensed", sans-serif;
+    --body: "Source Sans 3", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+    --bg: #111816; --surface: #19221f; --ink: #e6ece9; --muted: #9aa8a1; --line: #2c3833;
+    --pine: #24584a; --pine-ink: #f2f5f3; --sign: #f2b705; --sign-ink: #141414;
+    --soft: #1f2b27; --tip: #2a2614; --tip-line: #c99a12; --ok: #4fbf86; --warn: #e2805f; color-scheme: dark; } }
+  :root[data-theme="dark"] {
+    --bg: #111816; --surface: #19221f; --ink: #e6ece9; --muted: #9aa8a1; --line: #2c3833;
+    --pine: #24584a; --pine-ink: #f2f5f3; --sign: #f2b705; --sign-ink: #141414;
+    --soft: #1f2b27; --tip: #2a2614; --tip-line: #c99a12; --ok: #4fbf86; --warn: #e2805f; color-scheme: dark; }
+
+  * { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.5; padding-bottom: 48px; }
+  body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--pine); }
+  .wrap { max-width: 640px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+  header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 9; background: var(--pine); color: var(--pine-ink); box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+  header .wrap { padding-block: 12px 10px; display: grid; gap: 8px; }
+  h1 { font-family: var(--display); font-weight: 700; font-size: 1.7rem; line-height: 1.05; margin: 0; letter-spacing: .3px; text-wrap: balance; }
+  .sub { font-size: .85rem; opacity: .85; margin: 0; }
+
+  .route { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; padding-bottom: 2px; }
+  .route::-webkit-scrollbar { display: none; }
+  .stop { flex: 0 0 auto; background: var(--sign); color: var(--sign-ink); font-family: var(--display); font-weight: 600; font-size: .9rem; padding: 2px 8px; border-radius: 3px; white-space: nowrap; }
+  .stop small { font-weight: 500; opacity: .7; margin-left: 4px; }
+  .arrow { flex: 0 0 auto; align-self: center; opacity: .6; font-size: .8rem; }
+
+  .chips { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: 0 0 auto; font: 600 .85rem var(--body); padding: 6px 12px; border-radius: 999px; border: 1px solid rgba(255,255,255,.45); background: transparent; color: var(--pine-ink); cursor: pointer; white-space: nowrap; }
+  .chip[aria-pressed="true"] { background: var(--sign); color: var(--sign-ink); border-color: var(--sign); }
+  .chip:focus-visible, button:focus-visible, a:focus-visible, summary:focus-visible { outline: 3px solid var(--sign); outline-offset: 2px; }
+
+  main.wrap { padding-block: 16px; display: grid; gap: 14px; }
+
+  details.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; }
+  details.panel > summary { cursor: pointer; padding: 12px 14px; font-family: var(--display); font-weight: 700; font-size: 1.15rem; display: flex; justify-content: space-between; gap: 10px; list-style: none; }
+  details.panel > summary::-webkit-details-marker { display: none; }
+  details.panel > summary .meta { font-family: var(--body); font-weight: 600; font-size: .85rem; color: var(--muted); align-self: center; }
+  .panel-body { padding: 0 14px 14px; display: grid; gap: 8px; }
+  .money { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; font-size: .92rem; }
+  .money td { padding: 6px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .money td:last-child { text-align: right; white-space: nowrap; padding-left: 12px; font-weight: 600; }
+  .money tr.total td { border-bottom: 0; font-weight: 700; padding-top: 10px; }
+  .note { font-size: .82rem; color: var(--muted); margin: 0; }
+  .check { display: flex; gap: 10px; align-items: flex-start; font-size: .93rem; cursor: pointer; }
+  .check input { width: 20px; height: 20px; margin-top: 1px; accent-color: var(--ok); flex: 0 0 auto; }
+  .check input:checked + span { text-decoration: line-through; color: var(--muted); }
+
+  .day { background: var(--pine); color: var(--pine-ink); border-radius: 8px; padding: 10px 14px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 4px 12px; margin-top: 6px; }
+  .day h2 { margin: 0; font-family: var(--display); font-size: 1.35rem; font-weight: 700; }
+  .day .dmeta { font-size: .82rem; opacity: .9; font-variant-numeric: tabular-nums; }
+
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 14px; display: grid; gap: 8px; }
+  .card.car { border-left: 6px solid var(--sign); }
+  .top { display: flex; gap: 10px; align-items: baseline; }
+  .time { font-family: var(--display); font-weight: 700; font-size: 1.25rem; color: var(--pine); font-variant-numeric: tabular-nums; flex: 0 0 auto; min-width: 3.2em; }
+  :root[data-theme="dark"] .time { color: var(--sign); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .time { color: var(--sign); } }
+  .cat { font-size: .72rem; font-weight: 700; letter-spacing: .8px; text-transform: uppercase; color: var(--muted); }
+  .name { font-family: var(--display); font-weight: 700; font-size: 1.35rem; line-height: 1.15; margin: 0; text-wrap: balance; }
+  .place { font-size: .9rem; color: var(--muted); }
+  .facts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .fact { font-size: .82rem; background: var(--soft); padding: 3px 8px; border-radius: 4px; min-width: 0; }
+  .fact.cost { color: var(--ok); font-weight: 700; }
+  .src { font-size: .72rem; font-weight: 700; color: var(--pine); border: 1px solid var(--line); padding: 1px 7px; border-radius: 999px; }
+  :root[data-theme="dark"] .src { color: var(--ink); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .src { color: var(--ink); } }
+  .tip { background: var(--tip); border-left: 3px solid var(--tip-line); padding: 8px 10px; border-radius: 4px; font-size: .93rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 8px; }
+  .btn { flex: 1 1 30%; min-width: 0; text-align: center; padding: 10px 8px; border-radius: 6px; font: 700 .85rem var(--body); text-decoration: none; cursor: pointer; border: 1px solid var(--pine); background: var(--surface); color: var(--ink); }
+  .btn.primary { background: var(--pine); color: var(--pine-ink); }
+  .btn.book { background: var(--sign); color: var(--sign-ink); border-color: var(--sign); }
+  .empty, .error { text-align: center; padding: 20px; color: var(--muted); }
+  .error { background: var(--tip); border-radius: 8px; color: var(--ink); font-size: .9rem; }
+
+  footer.wrap { font-size: .82rem; color: var(--muted); }
+  footer a { color: inherit; word-break: break-word; }
+  footer li { margin-bottom: 4px; }
+
+  .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 20; display: flex; align-items: flex-end; justify-content: center; }
+  .sheet { background: var(--surface); color: var(--ink); width: 100%; max-width: 640px; max-height: 88vh; overflow-y: auto; border-radius: 14px 14px 0 0; padding: 18px max(18px, env(safe-area-inset-right, 0px)) calc(18px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); }
+  .sheet-head { display: flex; justify-content: space-between; gap: 10px; border-bottom: 1px solid var(--line); padding-bottom: 8px; margin-bottom: 10px; }
+  .sheet h3 { margin: 0; font-family: var(--display); font-size: 1.45rem; line-height: 1.1; }
+  .close { background: none; border: 0; font-size: 1.9rem; line-height: 1; color: var(--muted); cursor: pointer; }
+  .sheet-body { white-space: pre-line; font-size: 1rem; line-height: 1.6; }
+  .audio { display: flex; gap: 8px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+  .audio .btn { flex: 1 1 100%; }
+  @media (prefers-reduced-motion: no-preference) { .sheet { animation: up .25s ease-out; } @keyframes up { from { transform: translateY(40px); opacity: .6; } to { transform: none; opacity: 1; } } }
+</style>
+
+<header>
+  <div class="wrap">
+    <h1>Παραλαβή του Opel Mokka</h1>
+    <p class="sub">Παρασκευή 11 ως Πέμπτη 17 Δεκεμβρίου 2026 · δύο άτομα</p>
+    <div class="route" aria-label="Διαδρομή">
+      <span class="stop">Memmingen<small>Γερμανία</small></span><span class="arrow">›</span>
+      <span class="stop">Bodnegg</span><span class="arrow">›</span>
+      <span class="stop">Lindau</span><span class="arrow">›</span>
+      <span class="stop">Innsbruck<small>Αυστρία</small></span><span class="arrow">›</span>
+      <span class="stop">Vipiteno<small>Ιταλία</small></span><span class="arrow">›</span>
+      <span class="stop">Sirmione</span><span class="arrow">›</span>
+      <span class="stop">Modena</span><span class="arrow">›</span>
+      <span class="stop">Ravenna</span><span class="arrow">›</span>
+      <span class="stop">Αγκώνα</span><span class="arrow">›</span>
+      <span class="stop">Ηγουμενίτσα<small>Ελλάδα</small></span><span class="arrow">›</span>
+      <span class="stop">Γιαννιτσά</span>
+    </div>
+    <div class="chips" id="dayChips">
+      <button class="chip" id="d0" data-day="0" aria-pressed="true">Όλες</button>
+      <button class="chip" id="d1" data-day="1" aria-pressed="false">Παρ 11/12</button>
+      <button class="chip" id="d2" data-day="2" aria-pressed="false">Σάβ 12/12</button>
+      <button class="chip" id="d3" data-day="3" aria-pressed="false">Κυρ 13/12</button>
+      <button class="chip" id="d4" data-day="4" aria-pressed="false">Δευ 14/12</button>
+      <button class="chip" id="d5" data-day="5" aria-pressed="false">Τρί 15/12</button>
+      <button class="chip" id="d6" data-day="6" aria-pressed="false">Τετ 16/12</button>
+      <button class="chip" id="d7" data-day="7" aria-pressed="false">Πέμ 17/12</button>
+    </div>
+    <div class="chips" id="catChips">
+      <button class="chip" id="c-all" data-cat="all" aria-pressed="true">Όλα</button>
+      <button class="chip" id="c-car" data-cat="Αυτοκίνητο" aria-pressed="false">Αυτοκίνητο</button>
+      <button class="chip" id="c-sights" data-cat="Αξιοθέατα" aria-pressed="false">Αξιοθέατα</button>
+      <button class="chip" id="c-food" data-cat="Φαγητό" aria-pressed="false">Φαγητό</button>
+      <button class="chip" id="c-market" data-cat="Αγορές" aria-pressed="false">Χριστουγεννιάτικες αγορές</button>
+      <button class="chip" id="c-stay" data-cat="Διαμονή" aria-pressed="false">Διαμονή</button>
+      <button class="chip" id="c-move" data-cat="Μεταφορές" aria-pressed="false">Μεταφορές</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <details class="panel" id="moneyPanel">
+    <summary>Πληρωμές <span class="meta" id="moneyMeta"></span></summary>
+    <div class="panel-body">
+      <table class="money" id="moneyTable"></table>
+      <p class="note">Στη Γερμανία, την Αυστρία και την Ιταλία πληρώνεις σε ευρώ. Ξενοδοχεία, πλοίο, καύσιμα και ιταλικά διόδια (περίπου 60 € ως την Αγκώνα) δεν έχουν μπει, γιατί δεν έχουν κλειστεί ακόμα.</p>
+    </div>
+  </details>
+
+  <details class="panel" id="checkPanel">
+    <summary>Να κλειστούν πριν φύγεις <span class="meta" id="checkMeta"></span></summary>
+    <div class="panel-body" id="checklist"></div>
+  </details>
+
+  <div id="content"><p class="empty">Φόρτωση προγράμματος…</p></div>
+</main>
+
+<footer class="wrap">
+  <details class="panel">
+    <summary>Πηγές και σημειώσεις</summary>
+    <div class="panel-body">
+      <p class="note">Ώρες τοπικές. Γερμανία, Αυστρία και Ιταλία είναι μία ώρα πίσω από την Ελλάδα. Αποστάσεις, χρόνοι οδήγησης και ώρες ανατολής και δύσης είναι εκτιμήσεις. Ωράρια και τιμές ξαναδές τα λίγες μέρες πριν.</p>
+      <ul>
+        <li><a href="https://suchen.mobile.de/fahrzeuge/details.html?id=47492760284192" target="_blank" rel="noopener">mobile.de, αγγελία του Opel Mokka (H. Lahlouh Automobile)</a></li>
+        <li><a href="https://www.adac.de/rund-ums-fahrzeug/auto-kaufen-verkaufen/auto-sicher-bezahlen" target="_blank" rel="noopener">ADAC, ασφαλής πληρωμή αυτοκινήτου</a></li>
+        <li><a href="https://www.adac.de/reise_freizeit/maut/oesterreich" target="_blank" rel="noopener">ADAC, βινιέτα και διόδια στην Αυστρία</a></li>
+        <li><a href="https://shop.asfinag.at" target="_blank" rel="noopener">ASFINAG, επίσημο κατάστημα βινιέτας Αυστρίας</a></li>
+        <li><a href="https://de.wikivoyage.org/wiki/Flughafen_Memmingen" target="_blank" rel="noopener">Wikivoyage, αεροδρόμιο Memmingen</a></li>
+        <li><a href="https://www.tourismus-memmingen.de/detail/mmaddresstourismus/memminger-christmas-market.html" target="_blank" rel="noopener">Τουρισμός Memmingen, χριστουγεννιάτικη αγορά</a></li>
+        <li><a href="https://www.swissactivities.com/en-ch/christmas-markets/lindau/" target="_blank" rel="noopener">Swiss Activities, αγορά του Lindau 2026</a></li>
+        <li><a href="https://www.innsbruck.info/brauchtum-und-events/highlights/advent-und-weihnachten/christkindlmaerkte.html" target="_blank" rel="noopener">Innsbruck Tourismus, χριστουγεννιάτικες αγορές</a></li>
+        <li><a href="https://www.iltrentinodeibambini.it/en/?p=53713" target="_blank" rel="noopener">Il Trentino dei Bambini, αγορά του Vipiteno</a></li>
+        <li><a href="https://minoan.it/en/destinations/ferries-to-greece/ferries-ancona-igoumenitsa" target="_blank" rel="noopener">Minoan Lines, Αγκώνα – Ηγουμενίτσα</a></li>
+        <li>Google Maps, στοιχεία και βαθμολογίες ξενοδοχείων (Νοέμβριος 2026)</li>
+      </ul>
+    </div>
+  </details>
+</footer>
+
+<div class="overlay" id="sheet" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheetTitle">
+    <div class="sheet-head">
+      <h3 id="sheetTitle"></h3>
+      <button class="close" id="closeBtn" aria-label="Κλείσιμο">×</button>
+    </div>
+    <div class="sheet-body" id="sheetBody"></div>
+    <div class="audio">
+      <button class="btn primary" id="speakBtn">Ακρόαση</button>
+      <button class="btn" id="stopBtn" hidden>Σταμάτημα</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const DAYS = {
+    1: { label: "Παρασκευή 11 Δεκεμβρίου", meta: "Πτήση · δύση ≈ 16:20 στο Memmingen" },
+    2: { label: "Σάββατο 12 Δεκεμβρίου", meta: "Παραλαβή · ≈ 50 χλμ με το Mokka · δύση ≈ 16:30" },
+    3: { label: "Κυριακή 13 Δεκεμβρίου", meta: "Lindau και Bregenz · ≈ 20 χλμ · δύση ≈ 16:30" },
+    4: { label: "Δευτέρα 14 Δεκεμβρίου", meta: "Άλπεις · ≈ 450 χλμ · ανατολή ≈ 08:00" },
+    5: { label: "Τρίτη 15 Δεκεμβρίου", meta: "≈ 275 χλμ · δύση ≈ 16:30" },
+    6: { label: "Τετάρτη 16 Δεκεμβρίου", meta: "≈ 160 χλμ · πλοίο 19:30" },
+    7: { label: "Πέμπτη 17 Δεκεμβρίου", meta: "Πλοίο ως τις 18:00 · ≈ 330 χλμ" }
+  };
+
+  const CHECKS = [
+    "Υπογεγραμμένο συμφωνητικό: τιμή 8.000 €, προκαταβολή 1.000 € που αφαιρείται, ημερομηνία παράδοσης 12/12",
+    "Προκαταβολή 1.000 €: δικαιούχος η εταιρεία, λογαριασμός που αρχίζει από DE, πράσινος έλεγχος ονόματος στην εφαρμογή",
+    "Ο έμπορος είναι ανοιχτός Σάββατο πρωί και ξέρεις τι ώρα σας περιμένει",
+    "Διεύθυνση παράδοσης: Bodnegg ή Oberteuringen",
+    "Πινακίδες εξαγωγής έτοιμες από την Παρασκευή (το γραφείο ταξινόμησης κλείνει το Σαββατοκύριακο)",
+    "Ασφάλεια για Γερμανία, Αυστρία, Ιταλία και Ελλάδα, τουλάχιστον 15 μέρες",
+    "Χειμερινά ελαστικά ή τεσσάρων εποχών με σήμανση M+S",
+    "Αλλαγή υγρού φρένων πριν την παράδοση",
+    "Όριο άμεσης μεταφοράς στην τράπεζα για 7.000 € (ή 7.150 €)",
+    "Hotel Falken, Memmingen, με ειδοποίηση για άφιξη 22:30",
+    "Insel-Hotel-Lindau, 2 νύχτες",
+    "Ξενοδοχείο Sirmione (ανοιχτό στις 14/12; δήλωση πινακίδας)",
+    "Ai Giardini di San Vitale, Ravenna",
+    "Πλοίο Αγκώνα – Ηγουμενίτσα, Τετάρτη 16/12, αυτοκίνητο, δύο άτομα, καμπίνα",
+    "Βινιέτα Αυστρίας 10 ημερών"
+  ];
+  const STORE = "mokka-trip-checks";
+
+  let all = [], shown = [], day = 0, cat = "all", speakText = "";
+  const synth = window.speechSynthesis;
+  const $ = (id) => document.getElementById(id);
+  const esc = (s) => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const eur = (n) => n.toLocaleString("el-GR", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
+  const tkey = (t) => /^\d{1,2}:\d{2}$/.test(t || "") ? t.padStart(5, "0") : "00:00";
+  const isAllDays = (i) => i.days.length > 1;
+
+  // ---- Λίστα ελέγχου (αποθηκεύεται μόνο σε αυτή τη συσκευή)
+  function loadChecks() { try { return JSON.parse(localStorage.getItem(STORE) || "[]"); } catch (e) { return []; } }
+  function saveChecks(v) { try { localStorage.setItem(STORE, JSON.stringify(v)); } catch (e) {} }
+  function renderChecks() {
+    const done = loadChecks();
+    $("checklist").innerHTML = CHECKS.map((c, i) =>
+      `<label class="check" for="chk${i}"><input type="checkbox" id="chk${i}" data-i="${i}" ${done.includes(i) ? "checked" : ""}><span>${esc(c)}</span></label>`
+    ).join("") + `<p class="note">Τα τικ μένουν σε αυτή τη συσκευή και σε αυτόν τον browser.</p>`;
+    $("checkMeta").textContent = `${done.length} από ${CHECKS.length}`;
+  }
+  $("checklist").addEventListener("change", (e) => {
+    const i = Number(e.target.dataset.i); if (Number.isNaN(i)) return;
+    let done = loadChecks().filter(x => x !== i);
+    if (e.target.checked) done.push(i);
+    saveChecks(done);
+    $("checkMeta").textContent = `${done.length} από ${CHECKS.length}`;
+  });
+  renderChecks();
+
+  // ---- Πληρωμές
+  function renderMoney() {
+    const rows = all.filter(i => typeof i.costEur === "number" && i.costEur > 0);
+    const total = rows.reduce((a, i) => a + i.costEur, 0);
+    $("moneyTable").innerHTML =
+      `<tr><td>Ήδη: προκαταβολή στον έμπορο</td><td>1.000,00 €</td></tr>` +
+      `<tr><td><b>Στην παράδοση, Σάββατο 12/12</b> (υπόλοιπο 7.000 € + 150 € πινακίδες, αν δεν έχουν πληρωθεί)</td><td>7.150,00 €</td></tr>` +
+      rows.filter(i => i.category !== "Αυτοκίνητο").map(i => `<tr><td>${esc(i.costLabel || i.name)}</td><td>${eur(i.costEur)}</td></tr>`).join("") +
+      `<tr class="total"><td>Σύνολο γνωστών εξόδων, μαζί με το αυτοκίνητο</td><td>${eur(total)}</td></tr>`;
+    $("moneyMeta").textContent = eur(total);
+  }
+
+  // ---- Δεδομένα
+  fetch("locations.json")
+    .then(r => { if (!r.ok) throw new Error(r.status); return r.json(); })
+    .then(d => { all = d; renderMoney(); render(); })
+    .catch(() => {
+      $("content").innerHTML = '<p class="error">Δεν φορτώθηκε το <b>locations.json</b>. Αν άνοιξες το index.html με διπλό κλικ από τον υπολογιστή, ο browser δεν το επιτρέπει. Ανέβασε τα δύο αρχεία μαζί σε hosting, όπως GitHub Pages ή Netlify, ή άνοιξέ τα από τοπικό server.</p>';
+    });
+
+  function press(groupId, btn) {
+    document.querySelectorAll(`#${groupId} .chip`).forEach(b => b.setAttribute("aria-pressed", "false"));
+    btn.setAttribute("aria-pressed", "true");
+  }
+  $("dayChips").addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (!b) return; press("dayChips", b); day = Number(b.dataset.day); render(); });
+  $("catChips").addEventListener("click", (e) => { const b = e.target.closest(".chip"); if (!b) return; press("catChips", b); cat = b.dataset.cat; render(); });
+
+  function card(i, idx) {
+    const q = encodeURIComponent(i.mapQuery || i.name);
+    const src = (i.sources || []).map(s => `<span class="src">${esc(s)}</span>`).join("");
+    return `<article class="card ${i.category === "Αυτοκίνητο" ? "car" : ""}">
+      <div class="top"><span class="time">${esc(i.time)}</span>
+        <div style="min-width:0"><div class="cat">${esc(i.category)}</div><h3 class="name">${esc(i.name)}</h3><div class="place">${esc(i.place)}</div></div></div>
+      <div class="facts">${i.distance ? `<span class="fact">${esc(i.distance)}</span>` : ""}<span class="fact cost">${esc(i.cost)}</span>${src}</div>
+      <div class="tip">${esc(i.tip)}</div>
+      <div class="actions">
+        <button class="btn primary" data-open="${idx}">Λεπτομέρειες</button>
+        <a class="btn" href="https://www.google.com/maps/search/?api=1&query=${q}" target="_blank" rel="noopener">Χάρτης</a>
+        ${i.book ? `<a class="btn book" href="${esc(i.book)}" target="_blank" rel="noopener">${i.category === "Αυτοκίνητο" ? "Αγγελία" : "Κράτηση"}</a>` : ""}
+      </div></article>`;
+  }
+
+  function render() {
+    if (!all.length) return;
+    const list = all.filter(i => (day === 0 || i.days.includes(day)) && (cat === "all" || i.category === cat));
+    if (!list.length) { $("content").innerHTML = '<p class="empty">Τίποτα σε αυτό το φίλτρο για αυτή τη μέρα.</p>'; shown = []; return; }
+    const first = (i) => day || Math.min(...i.days);
+    list.sort((a, b) => (isAllDays(b) - isAllDays(a)) || (first(a) - first(b)) || tkey(a.time).localeCompare(tkey(b.time)));
+    shown = list;
+    let html = "", last = null;
+    list.forEach((i, idx) => {
+      if (!isAllDays(i)) {
+        const d = first(i);
+        if (d !== last) { html += `<div class="day"><h2>${DAYS[d].label}</h2><span class="dmeta">${DAYS[d].meta}</span></div>`; last = d; }
+      }
+      html += card(i, idx);
+    });
+    $("content").innerHTML = `<div style="display:grid;gap:12px">${html}</div>`;
+  }
+
+  // ---- Λεπτομέρειες και ακρόαση
+  $("content").addEventListener("click", (e) => { const b = e.target.closest("[data-open]"); if (b) openSheet(Number(b.dataset.open)); });
+  function openSheet(idx) {
+    const i = shown[idx]; if (!i) return;
+    $("sheetTitle").textContent = i.name;
+    $("sheetBody").textContent = i.description || i.tip;
+    speakText = (i.name + ". " + (i.description || i.tip)).replace(/\p{Extended_Pictographic}/gu, "").replace(/[➔›]/g, ", ").replace(/\s{2,}/g, " ");
+    stop();
+    $("sheet").hidden = false;
+    $("closeBtn").focus();
+  }
+  function closeSheet() { $("sheet").hidden = true; stop(); }
+  $("closeBtn").addEventListener("click", closeSheet);
+  $("sheet").addEventListener("click", (e) => { if (e.target.id === "sheet") closeSheet(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("sheet").hidden) closeSheet(); });
+
+  function greekVoice() { if (!synth) return null; const v = synth.getVoices(); return v.find(x => x.lang === "el-GR") || v.find(x => (x.lang || "").startsWith("el")) || null; }
+  function speak() {
+    if (!synth || !speakText) return;
+    synth.cancel();
+    const u = new SpeechSynthesisUtterance(speakText);
+    u.lang = "el-GR"; const v = greekVoice(); if (v) u.voice = v; u.rate = 0.95;
+    u.onend = u.onerror = () => toggle(false);
+    synth.speak(u); toggle(true);
+  }
+  function stop() { if (synth && (synth.speaking || synth.pending)) synth.cancel(); toggle(false); }
+  function toggle(on) { $("speakBtn").hidden = on; $("stopBtn").hidden = !on; }
+  $("speakBtn").addEventListener("click", speak);
+  $("stopBtn").addEventListener("click", stop);
+</script>
+
+</body>
+</html>
