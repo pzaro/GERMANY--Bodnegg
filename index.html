@@ -97,7 +97,7 @@
   .error { background: var(--tip); border-radius: 8px; color: var(--ink); font-size: .9rem; }
 
   footer.wrap { font-size: .82rem; color: var(--muted); }
-  footer a { color: inherit; word-break: break-word; }
+  footer a, .panel a { color: inherit; word-break: break-word; text-decoration: underline; }
   footer li { margin-bottom: 4px; }
 
   .overlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 20; display: flex; align-items: flex-end; justify-content: center; }
@@ -145,6 +145,7 @@
       <button class="chip" id="c-food" data-cat="Φαγητό" aria-pressed="false">Φαγητό</button>
       <button class="chip" id="c-market" data-cat="Αγορές" aria-pressed="false">Χριστουγεννιάτικες αγορές</button>
       <button class="chip" id="c-stay" data-cat="Διαμονή" aria-pressed="false">Διαμονή</button>
+      <button class="chip" id="c-toll" data-cat="Διόδια" aria-pressed="false">Διόδια</button>
       <button class="chip" id="c-move" data-cat="Μεταφορές" aria-pressed="false">Μεταφορές</button>
     </div>
   </div>
@@ -155,7 +156,29 @@
     <summary>Πληρωμές <span class="meta" id="moneyMeta"></span></summary>
     <div class="panel-body">
       <table class="money" id="moneyTable"></table>
-      <p class="note">Στη Γερμανία, την Αυστρία και την Ιταλία πληρώνεις σε ευρώ. Ξενοδοχεία, πλοίο, καύσιμα και ιταλικά διόδια (περίπου 60 € ως την Αγκώνα) δεν έχουν μπει, γιατί δεν έχουν κλειστεί ακόμα.</p>
+      <p class="note">Παντού πληρώνεις σε ευρώ. Ξενοδοχεία και καύσιμα δεν έχουν μπει, γιατί δεν έχουν κλειστεί ακόμα.</p>
+    </div>
+  </details>
+
+  <details class="panel" id="tollPanel">
+    <summary>Διόδια και εισιτήρια <span class="meta" id="tollMeta"></span></summary>
+    <div class="panel-body">
+      <div style="overflow-x:auto">
+        <table class="money tolls">
+          <tr><td><b>Γερμανία</b><br>Αυτοκινητόδρομοι χωρίς διόδια για επιβατικά.</td><td>0 €</td></tr>
+          <tr><td><b>Αυστρία, βινιέτα</b> μίας ημέρας για τη Δευτέρα 14/12. Ψηφιακή, με τον αριθμό των πινακίδων εξαγωγής, στο <a href="https://shop.asfinag.at" target="_blank" rel="noopener">shop.asfinag.at</a> ή στο ADAC Mautportal. Ισχύει αμέσως. Η 10ήμερη (12,80 €) αγορασμένη online από ιδιώτη ισχύει από τη 18η μέρα.</td><td>9,60 €</td></tr>
+          <tr><td><b>Αυστρία, σήραγγα Arlberg</b>. Στο σταθμό με κάρτα ή μετρητά, ή από πριν ως ψηφιακή διέλευση.</td><td>13,00 €</td></tr>
+          <tr><td><b>Αυστρία, Brenner (A13)</b>. Στο σταθμό του Schönberg με κάρτα ή μετρητά, ή από πριν ως ψηφιακή διέλευση. Μία λωρίδα στη γέφυρα Lueg λόγω έργων.</td><td>12,50 €</td></tr>
+          <tr><td><b>Ιταλία, Brennero – Sirmione</b>. Εισιτήριο στην είσοδο, πληρωμή στην έξοδο. Λωρίδες «Carte» για κάρτα, όχι τις κίτρινες «Telepass».</td><td>≈ 22 €</td></tr>
+          <tr><td><b>Ιταλία, Sirmione – Modena</b></td><td>≈ 10,50 €</td></tr>
+          <tr><td><b>Ιταλία, Modena – Ravenna</b></td><td>≈ 9,50 €</td></tr>
+          <tr><td><b>Ιταλία, Ravenna – Αγκώνα</b> (υπολογιστής Unipol Move)</td><td>8,90 €</td></tr>
+          <tr><td><b>Πλοίο Αγκώνα – Ηγουμενίτσα</b>, αυτοκίνητο, δύο άτομα, καμπίνα. Ηλεκτρονικό εισιτήριο από <a href="https://minoan.it/en/destinations/ferries-to-greece/ferries-ancona-igoumenitsa" target="_blank" rel="noopener">Minoan</a>, <a href="https://www.grimaldi-lines.com/en/route/ancona-igoumenitsa/" target="_blank" rel="noopener">Grimaldi</a> ή <a href="https://www.ferryhopper.com/it/ferry-routes/direct/ancona-to-igoumenitsa" target="_blank" rel="noopener">Ferryhopper</a>, με τον αριθμό των πινακίδων.</td><td>≈ 350 – 500 €</td></tr>
+          <tr><td><b>Ελλάδα, Εγνατία</b> Ηγουμενίτσα – Βέροια: Τύριας 2,70, Παμβώτιδα 1,55, Μαλακάσι 1,90, Σιάτιστα 1,90, Πολύμυλος 1,90 (τιμές 2024). Κάρτα, μετρητά ή πομποδέκτης.</td><td>≈ 10 €</td></tr>
+          <tr class="total"><td>Σύνολο διοδίων (χωρίς πλοίο)</td><td>≈ 96 €</td></tr>
+        </table>
+      </div>
+      <p class="note">Τα ποσά με ≈ είναι εκτιμήσεις. Τα ιταλικά τα επιβεβαιώνεις στον <a href="https://www.autostrade.it/it/viaggia/calcola-percorso" target="_blank" rel="noopener">υπολογιστή διοδίων της Autostrade per l'Italia</a>. Για όλα τα ηλεκτρονικά χρειάζεσαι τον αριθμό των πινακίδων εξαγωγής: ζήτα τον από τον έμπορο την Παρασκευή.</p>
     </div>
   </details>
 
@@ -183,6 +206,14 @@
         <li><a href="https://www.innsbruck.info/brauchtum-und-events/highlights/advent-und-weihnachten/christkindlmaerkte.html" target="_blank" rel="noopener">Innsbruck Tourismus, χριστουγεννιάτικες αγορές</a></li>
         <li><a href="https://www.iltrentinodeibambini.it/en/?p=53713" target="_blank" rel="noopener">Il Trentino dei Bambini, αγορά του Vipiteno</a></li>
         <li><a href="https://minoan.it/en/destinations/ferries-to-greece/ferries-ancona-igoumenitsa" target="_blank" rel="noopener">Minoan Lines, Αγκώνα – Ηγουμενίτσα</a></li>
+        <li><a href="https://www.adac.de/fahrzeugwelt/maut-vignette/oesterreich/vignette-oesterreich-kaufen/" target="_blank" rel="noopener">ADAC, αγορά βινιέτας και ψηφιακής διέλευσης Αυστρίας</a></li>
+        <li><a href="https://www.oeamtc.at/thema/maut-vignette/die-digitale-vignette-in-oesterreich-25765729/print" target="_blank" rel="noopener">ÖAMTC, τιμές ψηφιακής βινιέτας 2026</a></li>
+        <li><a href="https://tolltickets.com/blog/austria-toll-roads-vignette-guide/" target="_blank" rel="noopener">tolltickets.com, διόδια Αυστρίας 2026 (Brenner, Arlberg)</a></li>
+        <li><a href="https://www.pincamp.de/magazin/ratgeber/reisehinweise-faehren/baustelle-auf-dem-brenner-2026-bauarbeiten-und-sperrungen-gehen-weiter" target="_blank" rel="noopener">PiNCAMP, έργα στο Brenner το 2026</a></li>
+        <li><a href="https://www.ladige.it/cronaca/pedaggi-2026-in-trentino-alto-adige-rincari-lievi-ma-pesanti-per-i-pendolari-b3u9ycxt" target="_blank" rel="noopener">l'Adige, διόδια A22 το 2026</a></li>
+        <li><a href="https://www.unipolmove.it/calcola-pedaggio/Ravenna/Ancona" target="_blank" rel="noopener">Unipol Move, διόδια Ravenna – Ancona</a></li>
+        <li><a href="https://www.ferryhopper.com/it/ferry-routes/direct/ancona-to-igoumenitsa" target="_blank" rel="noopener">Ferryhopper, πλοία Αγκώνα – Ηγουμενίτσα</a></li>
+        <li><a href="https://www.odigostoupoliti.eu/oi-nees-afksimenes-times-ton-diodion-stin-egnatia-odo/amp/" target="_blank" rel="noopener">Οδηγός του Πολίτη, διόδια Εγνατίας</a></li>
         <li>Google Maps, στοιχεία και βαθμολογίες ξενοδοχείων (Νοέμβριος 2026)</li>
       </ul>
     </div>
@@ -229,7 +260,9 @@
     "Ξενοδοχείο Sirmione (ανοιχτό στις 14/12; δήλωση πινακίδας)",
     "Ai Giardini di San Vitale, Ravenna",
     "Πλοίο Αγκώνα – Ηγουμενίτσα, Τετάρτη 16/12, αυτοκίνητο, δύο άτομα, καμπίνα",
-    "Βινιέτα Αυστρίας 10 ημερών"
+    "Αριθμός πινακίδων εξαγωγής από τον έμπορο, για βινιέτα και πλοίο",
+    "Ψηφιακή βινιέτα Αυστρίας 1 ημέρας για 14/12",
+    "Online check-in Ryanair 24 ώρες πριν (Πέμπτη 10/12 βράδυ)"
   ];
   const STORE = "mokka-trip-checks";
 
@@ -264,12 +297,17 @@
   function renderMoney() {
     const rows = all.filter(i => typeof i.costEur === "number" && i.costEur > 0);
     const total = rows.reduce((a, i) => a + i.costEur, 0);
+    const est = all.filter(i => typeof i.costEst === "number" && i.costEst > 0);
+    const estTotal = est.reduce((a, i) => a + i.costEst, 0);
     $("moneyTable").innerHTML =
       `<tr><td>Ήδη: προκαταβολή στον έμπορο</td><td>1.000,00 €</td></tr>` +
       `<tr><td><b>Στην παράδοση, Σάββατο 12/12</b> (υπόλοιπο 7.000 € + 150 € πινακίδες, αν δεν έχουν πληρωθεί)</td><td>7.150,00 €</td></tr>` +
       rows.filter(i => i.category !== "Αυτοκίνητο").map(i => `<tr><td>${esc(i.costLabel || i.name)}</td><td>${eur(i.costEur)}</td></tr>`).join("") +
-      `<tr class="total"><td>Σύνολο γνωστών εξόδων, μαζί με το αυτοκίνητο</td><td>${eur(total)}</td></tr>`;
-    $("moneyMeta").textContent = eur(total);
+      `<tr class="total"><td>Σύνολο γνωστών εξόδων, μαζί με το αυτοκίνητο</td><td>${eur(total)}</td></tr>` +
+      est.map(i => `<tr><td>${esc(i.costLabel || i.name)} <span class="note">(εκτίμηση)</span></td><td>≈ ${eur(i.costEst)}</td></tr>`).join("") +
+      `<tr class="total"><td>Με τις εκτιμήσεις</td><td>≈ ${eur(total + estTotal)}</td></tr>`;
+    $("moneyMeta").textContent = "≈ " + eur(total + estTotal);
+    $("tollMeta").textContent = "≈ 96 € + πλοίο";
   }
 
   // ---- Δεδομένα
